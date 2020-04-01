@@ -1,2 +1,9 @@
-# Projects-For-Advanced-Beginners
-This repository contains my implementations of the projects mentioned in https://robertheaton.com/2018/12/08/programming-projects-for-advanced-beginners/
+## ASCII Art
+You must have gcc and Magick++ to run this.
+Run the following commands:
+```
+g++ -o art art.cpp \`Magick++-config --cppflags --cxxflags --ldflags --libs
+````
+```
+./art /path/to/image
+```
