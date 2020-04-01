@@ -33,11 +33,13 @@ int main(int argc, char** argv) {
     const int rows = image.rows();
 
     int brightness[columns][rows];
+    int char_idx = 0;
     Magick::PixelPacket* pixel_array[columns][rows];
     for (int i = 0; i != columns; i++) {
         for (int j = 0; j != rows; j++) {
             brightness[i][j] = how_bright(pixels->red, pixels->green, pixels->blue);
-            // std::cout << brightness[i][j] << '\n';
+            char_idx = (brightness[i][j] * 65) / 256;
+            // std::cout << ascii[char_idx] << '\n';
             pixel_array[i][j] = pixels++;
         }
     }
