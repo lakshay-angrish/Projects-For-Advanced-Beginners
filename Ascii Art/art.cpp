@@ -18,7 +18,18 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    std::cout << image.baseColumns() << '\t' << image.baseRows() << '\n';
+    std::cout << "Image Size = " << image.columns() << " X " << image.rows() << '\n';
+
+    Magick::PixelPacket *pixels = image.getPixels(0, 0, image.columns(), image.rows());
+    const int columns = image.columns();
+    const int rows = image.rows();
+
+    Magick::PixelPacket* pixel_array[columns][rows];
+    for (int i = 0; i != columns; i++) {
+        for (int j = 0; j != rows; j++) {
+            pixel_array[i][j] = pixels++;
+        }
+    }
 
     return 0;
 }
