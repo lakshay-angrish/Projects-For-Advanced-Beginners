@@ -1,7 +1,9 @@
 #include "game.h"
 
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -9,8 +11,8 @@ void render(vector<vector<int> >& board) {
     char ch;
     for (int i = 0; i != board.size(); i++) {
         for (int j = 0; j != board[i].size(); j++) {
-            ch = board[i][j] == 0 ? ' ' : '#';
-            cout << ch;
+            ch = board[i][j] == 0 ? '.' : 'O';
+            cout << ch << " ";
         }
         cout << '\n';
     }
@@ -26,6 +28,30 @@ vector<vector<int> > random_state(int width, int height) {
         }
     }
 
+    return board;
+}
+
+vector<vector<int> > load_state(string& path) {
+    fstream file;
+    try {
+        file.open(path);
+
+    } catch(const std::exception& e) {
+        std::cerr << e.what() << '\n';
+        exit(1);
+    }
+
+    vector<vector<int> > board;
+    string line;
+    while (getline(file, line)) {
+        vector<int> row;
+        for (int i = 0; i != line.size(); i++) {
+            row.push_back(line[i] - 48);
+        }
+        board.push_back(row);
+    }
+
+    file.close();
     return board;
 }
 

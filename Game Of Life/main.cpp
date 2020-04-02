@@ -1,20 +1,20 @@
 #include "game.h"
 
-#include<iostream>
-#include<vector>
-#include<string>
-#include<unistd.h>
+#include <iostream>
+#include <vector>
+#include <unistd.h>
+#include <string>
 
 using namespace std;
 
 int main() {
-    int width, height;
-    cin >> width >> height;
-    vector<vector<int> > board = random_state(width, height);
+    string path = "gun.txt";
 
-    for (int i = 0; i != 1000000; i++) {
+    vector<vector<int> > board = load_state(path);
+
+    while (true) {
         render(board);
-        usleep(50000);
+        usleep(100000);
         cout << string(100, '\n');
         next_state(board);
     }
