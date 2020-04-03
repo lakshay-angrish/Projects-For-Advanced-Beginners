@@ -1,4 +1,5 @@
 #include "game.h"
+#include "ai.h"
 
 #include <iostream>
 #include <vector>
@@ -14,8 +15,12 @@ int main() {
 
     int i;
     char winner;
+    pair<int, int> move;
     for (i = 0; i != 9; i++) {
-        board = make_move(get_move(board), board, p[i % 2]);
+        if (i % 2 == 0)  move = get_move(board);
+        else        move = finding_moves_ai(board, p[1]);
+
+        board = make_move(move, board, p[i % 2]);
         render(board);
         winner = check_winner(board);
         if (winner == 'X') {
