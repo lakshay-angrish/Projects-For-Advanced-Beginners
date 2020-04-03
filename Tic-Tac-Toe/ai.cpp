@@ -22,7 +22,7 @@ pair<int, int> random_ai(vector<string>& board, char player) {
     return pair<int, int>(x + 1, y + 1);
 }
 
-pair<int, int> finding_moves_ai(vector<string>& board, char player) {
+pair<int, int> find_winning_move_ai(vector<string>& board, char player) {
     int count = 0;
     //check in columns
     for (int i = 0; i != 3; i++) {
@@ -70,4 +70,58 @@ pair<int, int> finding_moves_ai(vector<string>& board, char player) {
     }
 
     return random_ai(board, player);
+}
+
+pair<int, int> find_winning_and_losing_move_ai(vector<string>& board, char player) {
+    char opponent = player == 'X' ? 'O' : 'X';
+
+    //WINNING MOVE SEARCH
+    int count = 0;
+    //check in columns
+    for (int i = 0; i != 3; i++) {
+        count = 0;
+        if (board[0][i] == player)  count++;
+        if (board[1][i] == player)  count++;
+        if (board[2][i] == player)  count++;
+
+        if (count == 2) {
+            for (int k = 0; k != 3; k++) {
+                if (board[k][i] == ' ') return pair<int, int>(k + 1, i + 1);
+            }
+        }
+    }
+
+    //check in columns
+    for (int i = 0; i != 3; i++) {
+        count = 0;
+        if (board[i][0] == player)  count++;
+        if (board[i][1] == player)  count++;
+        if (board[i][2] == player)  count++;
+
+        if (count == 2) {
+            for (int k = 0; k != 3; k++) {
+                if (board[i][k] == ' ') return pair<int, int>(i + 1, k + 1);
+            }
+        }
+    }
+
+    //check in diagonals
+    int left_count = 0, right_count = 0;
+    for (int i = 0; i != 3; i++) {
+        if (board[i][i] == player)  left_count++;
+        if (board[i][2 - i] == player)  right_count++;
+    }
+    if (left_count == 2) {
+        for (int k = 0; k != 3; k++) {
+            if (board[k][k] == ' ') return pair<int, int>(k + 1, k + 1);
+        }
+    }
+    if (right_count == 2) {
+        for (int k = 0; k != 3; k++) {
+            if (board[k][2 - k] == ' ') return pair<int, int>(k + 1, 2 - k + 1);
+        }
+    }
+
+    //LOSING MOVE SEARCH
+    return find_winning_move_ai(board, opponent);
 }

@@ -18,10 +18,10 @@ int main() {
     pair<int, int> move;
     for (i = 0; i != 9; i++) {
         if (i % 2 == 0)  move = get_move(board);
-        else        move = finding_moves_ai(board, p[1]);
+        else        move = find_winning_and_losing_move_ai(board, p[1]);
 
         board = make_move(move, board, p[i % 2]);
-        render(board);
+        if (i % 2)   render(board);
         winner = check_winner(board);
         if (winner == 'X') {
             cout << string(60, ' ') << "Player 1 Wins!\n";
@@ -34,6 +34,7 @@ int main() {
     }
 
     if (i == 9) {
+        render(board);
         cout << string(60, ' ') << "     DRAW\n";
     }
 
