@@ -6,8 +6,6 @@
 
 using namespace std;
 
-string super_tab(60, ' ');
-
 vector<string> new_board() {
     return vector<string>(3, string(3, ' '));
 }

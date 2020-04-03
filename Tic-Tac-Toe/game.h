@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+static std::string super_tab(60, ' ');
+
 std::vector<std::string> new_board();
 void render(std::vector<std::string>&);
 std::pair<int, int> get_move(std::vector<std::string>&);
