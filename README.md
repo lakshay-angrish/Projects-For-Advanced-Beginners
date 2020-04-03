@@ -15,6 +15,8 @@ Run the following commands:
 g++ game.cpp main.cpp -o game
 ./game
 ```
+![](Game%20Of%20Life/gun.gif)
+
 For unit tests:
 ```
 g++ tests.cpp main.cpp -o tests
