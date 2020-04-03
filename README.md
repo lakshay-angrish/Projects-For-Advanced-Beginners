@@ -7,7 +7,7 @@ g++ -o art art.cpp `Magick++-config --cppflags --cxxflags --ldflags --libs`
 ```
 Original             |  ASCII
 :-------------------------:|:-------------------------:
-![alt text](https://raw.githubusercontent.com/lakshay-angrish/Projects-For-Advanced-Beginners/master/Ascii%20Art/tiger.jpg)  |  ![alt text](https://raw.githubusercontent.com/lakshay-angrish/Projects-For-Advanced-Beginners/master/Ascii%20Art/tiger-ASCII.png)
+![](Ascii%20Art/tiger.jpg)  |  ![](Ascii%20Art/tiger-ASCII.png)
 
 ## Game of Life
 Run the following commands:
