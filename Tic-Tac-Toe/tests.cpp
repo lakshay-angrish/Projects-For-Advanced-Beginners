@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -128,6 +129,43 @@ bool test11() {
     return expected_move == move_made;
 }
 
+int test12(string ai1, string ai2, int iterations) {
+    pair<int, int> (*AI1)(vector<string>&, char);
+    pair<int, int> (*AI2)(vector<string>&, char);
+    char p[2] = {'X', 'O'}, winner;
+    int score1 = 0, score2 = 0, i;
+
+    if (ai1 == "random_ai")                               AI1 = random_ai;
+    else if (ai1 == "find_winning_move_ai")               AI1 = find_winning_move_ai;
+    else if (ai1 == "find_winning_and_losing_move_ai")    AI1 = find_winning_and_losing_move_ai;
+
+    if (ai2 == "random_ai")                               AI2 = random_ai;
+    else if (ai2 == "find_winning_move_ai")               AI2 = find_winning_move_ai;
+    else if (ai2 == "find_winning_and_losing_move_ai")    AI2 = find_winning_and_losing_move_ai;
+
+    for (int j = 0; j != iterations; j++) {
+        vector<string> board = new_board();
+        pair<int, int> move;
+
+        for (i = 0; i != 9; i++) {
+            move = i % 2 == 0 ? AI1(board, 'X') : AI2(board, 'O');
+            board = make_move(move, board, p[i % 2]);
+
+            winner = check_winner(board);
+            if (winner == 'X') {
+                score1++;
+                break;
+            }
+            if (winner == 'O') {
+                score2++;
+                break;
+            }
+        }
+    }
+
+    return ceil(double(score1 * 100) / (iterations));
+}
+
 int main() {
     int ti = 0;
 
@@ -139,10 +177,11 @@ int main() {
     };
 
     for (int i = 0; i != 4; i++) {
+        cout << "TEST " << ++ti << " ==> ";
         if (suite1[i]() == 'X') {
-            cout << "PASSED " << ti++ + 1 << '\n';
+            cout << "PASSED\n";
         } else {
-            cout << "FAILED " << ti++ + 1 << '\n';
+            cout << "FAILED\n";
         }
     }
 
@@ -157,10 +196,29 @@ int main() {
     };
 
     for (int i = 0; i != 7; i++) {
-        if (suite2[i]()) {
-            cout << "PASSED " << ti++ + 1 << '\n';
+        cout << "TEST " << ++ti << " ==> ";
+        if (suite2[i]() == 'X') {
+            cout << "PASSED\n";
         } else {
-            cout << "FAILED " << ti++ + 1 << '\n';
+            cout << "FAILED\n";
+        }
+    }
+
+    string ais[] = {
+        "random_ai",
+        "find_winning_move_ai",
+        "find_winning_and_losing_move_ai"
+    };
+
+    int score1;
+    string out;
+    for (int i = 0; i != 3; i++) {
+        for (int j = i + 1; j < 3 && j != i; j++) {
+            cout << "TEST " << ++ti << " ==> ";
+            score1 = test12(ais[i], ais[j], 10000);
+            out = ais[i] + " v/s " + ais[j] + " ";
+            out += string(57 - out.size(), ' ');
+            cout << out << ":" << ais[i] << " won " << score1 << "% of games\n";
         }
     }
 
