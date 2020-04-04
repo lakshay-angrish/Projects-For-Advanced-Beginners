@@ -34,3 +34,9 @@ To play against Computer:
 g++ -o game game.cpp main.cpp ai.cpp -DAI
 ./game
 ```
+To see two AIs fight:
+```
+g++ -o game game.cpp main.cpp ai.cpp -DAI2
+./game <ai1> <ai2>
+```
+where ai1, ai2 ∈ {random_ai, find_winning_move_ai, find_winning_and_losing_move_ai}
