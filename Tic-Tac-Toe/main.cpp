@@ -1,5 +1,7 @@
 #include "game.h"
-#include "ai.h"
+    #ifdef AI
+        #include "ai.h"
+    #endif
 
 #include <iostream>
 #include <vector>
@@ -7,22 +9,9 @@
 
 using namespace std;
 
-//string super_tab(60, ' ');
-
 int main() {
     vector<string> board = new_board();
-    char p[2] = {'X', 'O'}, mode;
-
-    cout << super_tab << "1. P v/s P\n";
-    cout << super_tab << "2. P v/s AI\n";
-    cout << super_tab << "Enter choice = ";
-    cin >> mode;
-
-    while (mode != '1' && mode != '2') {
-        cout << super_tab << "Invalid Choice!\n";
-        cout << super_tab << "Enter Again = ";
-        cin >> mode;
-    }
+    char p[2] = {'X', 'O'};
 
     render(board);
 
@@ -30,17 +19,25 @@ int main() {
     char winner;
     pair<int, int> move;
     for (i = 0; i != 9; i++) {
-        if (mode == '1') {
+
+        #ifndef AI
             move = get_move(board);
-        } else {
+        #endif
+
+        #ifdef AI
             if (i % 2 == 0)  move = get_move(board);
             else        move = find_winning_and_losing_move_ai(board, p[1]);
-        }
+        #endif
 
         board = make_move(move, board, p[i % 2]);
 
-        if (mode == '2' && i % 2 == 0);
-        else    render(board);
+        #ifdef AI
+            if (i % 2 != 0) render(board);
+        #endif
+
+        #ifndef AI
+            render(board);
+        #endif
 
         winner = check_winner(board);
         if (winner == 'X') {
