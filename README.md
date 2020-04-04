@@ -24,6 +24,8 @@ g++ tests.cpp main.cpp -o tests
 ```
 
 ## Tic Tac Toe
+![](Tic-Tac-Toe/tic.gif)
+
 To play PvP:
 ```
 g++ -o game game.cpp main.cpp
