@@ -22,3 +22,15 @@ For unit tests:
 g++ tests.cpp main.cpp -o tests
 ./tests
 ```
+
+## Tic Tac Toe
+To play PvP:
+```
+g++ -o game game.cpp main.cpp
+./game
+```
+To play against Computer:
+```
+g++ -o game game.cpp main.cpp ai.cpp -DAI
+./game
+```
