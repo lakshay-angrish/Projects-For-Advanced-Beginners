@@ -1,8 +1,10 @@
 #include "ai.h"
+#include "game.h"
 
 #include <vector>
 #include <string>
 #include <random>
+#include <algorithm>
 
 using namespace std;
 
@@ -124,4 +126,65 @@ pair<int, int> find_winning_and_losing_move_ai(vector<string>& board, char playe
 
     //LOSING MOVE SEARCH
     return find_winning_move_ai(board, opponent);
+}
+
+vector<pair<int, int> > legal_moves(vector<string>& board) {
+    vector<pair<int, int> > moves;
+
+    for (int i = 0; i != 3; i++) {
+        for (int j = 0; j != 3; j++) {
+            if (board[i][j] == ' ') {
+                moves.push_back(pair<int, int>(i + 1, j + 1));
+            }
+        }
+    }
+
+    return moves;
+}
+
+int minimax_score(vector<string>& board, char player) {
+    if (check_winner(board) == 'X')         return 10;
+    else if (check_winner(board) == 'O')    return -10;
+    else if (is_draw(board))                return 0;
+
+    vector<int> scores;
+    vector<pair<int, int> > moves = legal_moves(board);
+    int score;
+
+    for (auto move: moves) {
+        vector<string> new_board = make_move(move, board, player);
+        score = minimax_score(new_board, get_opponent(player));
+        scores.push_back(score);
+    }
+
+    if (player == 'X')  return *max_element(scores.begin(), scores.end());
+    else                return *min_element(scores.begin(), scores.end());
+}
+
+pair<int, int> minimax_ai(vector<string>& board, char player) {
+    vector<pair<int, int> > moves = legal_moves(board);
+    vector<int> scores;
+    int score;
+
+    for (auto move: moves) {
+        vector<string> new_board = make_move(move, board, player);
+        score = minimax_score(new_board, get_opponent(player));
+        if ((player == 'X' && score == 10) || (player == 'O' && score == -10))  return move;
+        scores.push_back(score);
+    }
+
+    int low_idx = 0, high_idx = 0, high_score = scores[0], low_score = scores[0];
+    for (int i = 0; i != scores.size(); i++) {
+        if (scores[i] > high_score) {
+            high_score = scores[i];
+            high_idx = i;
+        }
+        if (scores[i] < low_score) {
+            low_score = scores[i];
+            low_idx = i;
+        }
+    }
+
+    if (player == 'X')  return moves[high_idx];
+    else                return moves[low_idx];
 }

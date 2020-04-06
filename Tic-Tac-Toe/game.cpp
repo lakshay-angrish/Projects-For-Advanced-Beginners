@@ -43,6 +43,10 @@ vector<string> make_move(pair<int, int> coords, vector<string>& board, char play
     return new_board;
 }
 
+char get_opponent(char player) {
+    return player == 'X' ? 'O' : 'X';
+}
+
 char check_winner(vector<string>& board) {
     //diagonals
     if (board[0][0] == board[1][1] && board[1][1] == board[2][2])   return board[1][1];
@@ -59,4 +63,16 @@ char check_winner(vector<string>& board) {
     if (board[0][2] == board[1][2] && board[1][2] == board[2][2])   return board[0][2];
 
     return ' ';
+}
+
+bool is_draw(vector<string>& board) {
+    if (check_winner(board) != ' ') return false;
+
+    for (int i = 0; i != 3; i++) {
+        for (int j = 0; j != 3; j++) {
+            if (board[i][j] == ' ') return false;
+        }
+    }
+
+    return true;
 }

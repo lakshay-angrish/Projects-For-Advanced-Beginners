@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
 
         #ifdef AI
             if (i % 2 == 0)  move = get_move(board);
-            else        move = find_winning_and_losing_move_ai(board, p[1]);
+            else        move = minimax_ai(board, p[1]);
         #endif
 
         #ifdef AI2
