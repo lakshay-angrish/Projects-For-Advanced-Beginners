@@ -43,8 +43,6 @@ void test2() {
     } else {
         cout << "FAILED 2\n";
     }
-
-    render(init_state);
 }
 
 int main() {
