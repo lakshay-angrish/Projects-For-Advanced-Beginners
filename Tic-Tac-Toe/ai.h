@@ -3,6 +3,9 @@
 
 #include <vector>
 #include <string>
+#include <map>
+
+static std::map<std::string, int> cache;
 
 std::pair<int, int> random_ai(std::vector<std::string>&, char);
 std::pair<int, int> find_winning_move_ai(std::vector<std::string>&, char);

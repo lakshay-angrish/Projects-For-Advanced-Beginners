@@ -143,6 +143,9 @@ vector<pair<int, int> > legal_moves(vector<string>& board) {
 }
 
 int minimax_score(vector<string>& board, char player) {
+    string key = board[0] + board[1] + board[2];
+    if (cache.count(key) != 0)  return cache[key];
+
     if (check_winner(board) == 'X')         return 10;
     else if (check_winner(board) == 'O')    return -10;
     else if (is_draw(board))                return 0;
@@ -157,8 +160,10 @@ int minimax_score(vector<string>& board, char player) {
         scores.push_back(score);
     }
 
-    if (player == 'X')  return *max_element(scores.begin(), scores.end());
-    else                return *min_element(scores.begin(), scores.end());
+    if (player == 'X')  cache.insert(pair<string, int>(key, *max_element(scores.begin(), scores.end())));
+    else                cache.insert(pair<string, int>(key, *min_element(scores.begin(), scores.end())));
+
+    return cache[key];
 }
 
 pair<int, int> minimax_ai(vector<string>& board, char player) {

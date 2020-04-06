@@ -199,7 +199,7 @@ int main() {
 
     for (int i = 0; i != 7; i++) {
         cout << "TEST " << ++ti << " ==> ";
-        if (suite2[i]() == 'X') {
+        if (suite2[i]()) {
             cout << "PASSED\n";
         } else {
             cout << "FAILED\n";
@@ -218,7 +218,7 @@ int main() {
     for (int i = 0; i != 4; i++) {
         for (int j = i + 1; j < 4 && j != i; j++) {
             cout << "TEST " << ++ti << " ==> ";
-            score1 = test12(ais[i], ais[j], 100);
+            score1 = test12(ais[i], ais[j], 10000);
             out = ais[i] + " v/s " + ais[j] + " ";
             out += string(57 - out.size(), ' ');
             cout << out << ":" << ais[i] << " won " << score1 << "% of games\n";
