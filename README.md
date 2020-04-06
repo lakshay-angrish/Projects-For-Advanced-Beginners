@@ -19,7 +19,7 @@ g++ game.cpp main.cpp -o game
 
 For unit tests:
 ```
-g++ tests.cpp main.cpp -o tests
+g++ tests.cpp game.cpp -o tests
 ./tests
 ```
 
@@ -41,4 +41,10 @@ To see two AIs fight:
 g++ -o game game.cpp main.cpp ai.cpp -DAI2
 ./game <ai1> <ai2>
 ```
-where ai1, ai2 ∈ {random_ai, find_winning_move_ai, find_winning_and_losing_move_ai}
+where ai1, ai2 ∈ {random_ai, find_winning_move_ai, find_winning_and_losing_move_ai, minmax_ai}
+
+For unit tests:
+```
+g++ tests.cpp ai.cpp game.cpp -o tests
+./tests
+```
