@@ -138,10 +138,12 @@ int test12(string ai1, string ai2, int iterations) {
     if (ai1 == "random_ai")                               AI1 = random_ai;
     else if (ai1 == "find_winning_move_ai")               AI1 = find_winning_move_ai;
     else if (ai1 == "find_winning_and_losing_move_ai")    AI1 = find_winning_and_losing_move_ai;
+    else if (ai1 == "minimax_ai")                         AI1 = minimax_ai;
 
     if (ai2 == "random_ai")                               AI2 = random_ai;
     else if (ai2 == "find_winning_move_ai")               AI2 = find_winning_move_ai;
     else if (ai2 == "find_winning_and_losing_move_ai")    AI2 = find_winning_and_losing_move_ai;
+    else if (ai2 == "minimax_ai")                         AI2 = minimax_ai;
 
     for (int j = 0; j != iterations; j++) {
         vector<string> board = new_board();
@@ -207,15 +209,16 @@ int main() {
     string ais[] = {
         "random_ai",
         "find_winning_move_ai",
-        "find_winning_and_losing_move_ai"
+        "find_winning_and_losing_move_ai",
+        "minimax_ai"
     };
 
     int score1;
     string out;
-    for (int i = 0; i != 3; i++) {
-        for (int j = i + 1; j < 3 && j != i; j++) {
+    for (int i = 0; i != 4; i++) {
+        for (int j = i + 1; j < 4 && j != i; j++) {
             cout << "TEST " << ++ti << " ==> ";
-            score1 = test12(ais[i], ais[j], 10000);
+            score1 = test12(ais[i], ais[j], 100);
             out = ais[i] + " v/s " + ais[j] + " ";
             out += string(57 - out.size(), ' ');
             cout << out << ":" << ais[i] << " won " << score1 << "% of games\n";
