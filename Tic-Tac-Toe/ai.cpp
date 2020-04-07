@@ -5,6 +5,7 @@
 #include <string>
 #include <random>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -192,4 +193,28 @@ pair<int, int> minimax_ai(vector<string>& board, char player) {
 
     if (player == 'X')  return moves[high_idx];
     else                return moves[low_idx];
+}
+
+void load_cache() {
+    fstream file("data.csv", ios::in);
+    string line, key;
+    int x, y, i;
+
+    while(getline(file, line)) {
+        key = "";
+        for (i = 0; line[i] != ','; i++) {
+            key += line[i];
+        }
+        i++;
+        x = line[i++] - '0';
+        i++;
+        y = line[i] - '0';
+
+        coords.insert(pair<string, pair<int, int> >(key, pair<int, int>(x, y)));
+    }
+}
+
+pair<int, int> minimax_ai_with_cache(vector<string>& board, char player) {
+    string key = board[0] + board[1] + board[2];
+    return coords[key];
 }

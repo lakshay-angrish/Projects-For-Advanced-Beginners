@@ -13,6 +13,10 @@ int main(int argc, char** argv) {
     vector<string> board = new_board();
     char p[2] = {'X', 'O'};
 
+    #if AI || AI2
+        load_cache();
+    #endif
+
     #ifdef AI2
         pair<int, int> (*ai1)(vector<string>&, char);
         pair<int, int> (*ai2)(vector<string>&, char);
@@ -23,7 +27,7 @@ int main(int argc, char** argv) {
                 if (s == "random_ai")                               ai1 = random_ai;
                 else if (s == "find_winning_move_ai")               ai1 = find_winning_move_ai;
                 else if (s == "find_winning_and_losing_move_ai")    ai1 = find_winning_and_losing_move_ai;
-                else if (s == "minimax_ai")                         ai1 = minimax_ai;
+                else if (s == "minimax_ai")                         ai1 = minimax_ai_with_cache;
                 else {
                     cout << super_tab << "Invalid AI entered!\n";
                     return 1;
@@ -33,7 +37,7 @@ int main(int argc, char** argv) {
                 if (s == "random_ai")                               ai2 = random_ai;
                 else if (s == "find_winning_move_ai")               ai2 = find_winning_move_ai;
                 else if (s == "find_winning_and_losing_move_ai")    ai2 = find_winning_and_losing_move_ai;
-                else if (s == "minimax_ai")                         ai2 = minimax_ai;
+                else if (s == "minimax_ai")                         ai2 = minimax_ai_with_cache;
                 else {
                     cout << super_tab << "Invalid AI entered!\n";
                     return 1;
@@ -62,7 +66,7 @@ int main(int argc, char** argv) {
 
         #ifdef AI
             if (i % 2 == 0)  move = get_move(board);
-            else        move = minimax_ai(board, p[1]);
+            else        move = minimax_ai_with_cache(board, p[1]);
         #endif
 
         #ifdef AI2

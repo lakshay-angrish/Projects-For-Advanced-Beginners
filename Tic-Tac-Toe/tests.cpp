@@ -138,12 +138,12 @@ int test12(string ai1, string ai2, int iterations) {
     if (ai1 == "random_ai")                               AI1 = random_ai;
     else if (ai1 == "find_winning_move_ai")               AI1 = find_winning_move_ai;
     else if (ai1 == "find_winning_and_losing_move_ai")    AI1 = find_winning_and_losing_move_ai;
-    else if (ai1 == "minimax_ai")                         AI1 = minimax_ai;
+    else if (ai1 == "minimax_ai")                         AI1 = minimax_ai_with_cache;
 
     if (ai2 == "random_ai")                               AI2 = random_ai;
     else if (ai2 == "find_winning_move_ai")               AI2 = find_winning_move_ai;
     else if (ai2 == "find_winning_and_losing_move_ai")    AI2 = find_winning_and_losing_move_ai;
-    else if (ai2 == "minimax_ai")                         AI2 = minimax_ai;
+    else if (ai2 == "minimax_ai")                         AI2 = minimax_ai_with_cache;
 
     for (int j = 0; j != iterations; j++) {
         vector<string> board = new_board();
@@ -215,6 +215,7 @@ int main() {
 
     int score1;
     string out;
+    load_cache();
     for (int i = 0; i != 4; i++) {
         for (int j = i + 1; j < 4 && j != i; j++) {
             cout << "TEST " << ++ti << " ==> ";
