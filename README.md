@@ -31,7 +31,12 @@ To play PvP:
 g++ -o game game.cpp main.cpp
 ./game
 ```
-To play against Computer:
+To enable AI play, you must create the data for it by running:
+```
+g++ -o gen generate.cpp game.cpp ai.cpp
+./gen
+```
+To play against Unbeatable Minimax AI:
 ```
 g++ -o game game.cpp main.cpp ai.cpp -DAI
 ./game
