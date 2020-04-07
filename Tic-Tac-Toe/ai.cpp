@@ -200,6 +200,8 @@ void load_cache() {
     string line, key;
     int x, y, i;
 
+    coords.clear();
+
     while(getline(file, line)) {
         key = "";
         for (i = 0; line[i] != ','; i++) {
