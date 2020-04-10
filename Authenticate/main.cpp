@@ -5,10 +5,24 @@
 #include <map>
 #include <iomanip>
 #include <openssl/sha.h>
+#include <sqlite3.h>
+#include <termios.h>
+#include <unistd.h>
 
 using namespace std;
 
-map<string, string> database;
+void SetStdinEcho(bool enable = true) {
+    struct termios tty;
+    tcgetattr(STDIN_FILENO, &tty);
+    if( !enable )
+        tty.c_lflag &= ~ECHO;
+    else
+        tty.c_lflag |= ECHO;
+
+    (void) tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+}
+
+sqlite3* database;
 
 string sha256(string s) {
     unsigned char out[SHA256_DIGEST_LENGTH];
@@ -24,29 +38,33 @@ string sha256(string s) {
 }
 
 void init_database() {
-    fstream file("credentials.csv", ios::in);
-    string line, user, pass;
-    int i;
-
-    database.clear();
-
-    while(getline(file, line)) {
-        user = pass = "";
-        for (i = 0; line[i] != ','; i++) {
-            user += line[i];
-        }
-        i++;
-        for (; i != line.size(); i++) {
-            pass += line[i];
-        }
-
-        database.insert(pair<string, string>(user, pass));
+    int failure = sqlite3_open("ppab6-test.db", &database);
+    if (failure) {
+        cout << "ERROR opening DB\n";
+        exit(1);
     }
 }
 
-bool is_valid_credentials(string username, string password) {
-    if (database.count(username) != 0 && database[username] == password)    return true;
-    return false;
+static int callback(void* data, int argc, char** argv, char** azColName) {
+    if (argv[0] && argv[1]) {
+        cout << "\nAuthenticated\n";
+    }
+
+    return 0;
+}
+
+void validate_credentials(string username, string password) {
+    password = sha256(password);
+
+    string sql = "SELECT * FROM USERS WHERE username=\"" + username + "\" AND password_hash=\"" + password + "\";";
+
+    int result = sqlite3_exec(database, sql.c_str(), callback, NULL, NULL);
+
+    if (result != SQLITE_OK) {
+        cout << "ERROR fetching data\n";
+        exit(1);
+    }
+
 }
 
 int main() {
@@ -57,11 +75,12 @@ int main() {
     cout << "Username: ";
     cin >> username;
     cout << "Password: ";
+    SetStdinEcho(false);
     cin >> password;
 
-    if (is_valid_credentials(username, sha256(password))) {
-        cout << "Authenticated\n";
-    } else  cout << "Access Denied\n";
+    SetStdinEcho(true);
+    validate_credentials(username, password);
 
+    sqlite3_close(database);
     return 0;
 }
