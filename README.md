@@ -53,3 +53,11 @@ For unit tests:
 g++ tests.cpp ai.cpp game.cpp -o tests
 ./tests
 ```
+
+## Authenticate
+Use the `.db` file to enter user data.
+To authenticate against it:
+```
+g++ main.cpp -o main -lcrypto -lsqlite3
+./main
+```
